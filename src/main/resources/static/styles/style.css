@@ -1,0 +1,205 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+#wrapper {
+    background-color: aquamarine;
+    min-height: 100vh;
+    min-width: 100vw;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+#toolbar {
+    width:100%;
+    margin-bottom: 0px;
+}
+
+#tool-wrapper {
+    float: left;
+}
+
+#collapse-menu-btn {
+    color: white;
+}
+
+#content-wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    /* position: relative; */
+}
+
+#mapid {
+    height: 100%;
+    width: 100%;
+    float: left;
+    z-index: 0;
+
+    -webkit-transition: width 1s ease;
+    -moz-transition: width 1s ease;
+    -o-transition: width 1s ease;
+    transition: width 1s ease;
+}
+
+#sidebar {
+    height: 100%;
+    width: 0%;
+    float: right;
+    align-content: center;
+    top:0;
+    right:0;
+    z-index: 2;
+    background-color: #343a40 ;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+
+    -webkit-transition: width 1s ease;
+    -moz-transition: width 1s ease;
+    -o-transition: width 1s ease;
+    transition: width 1s ease;
+}
+
+/* Styles for collapsing sidebar */
+#mapid.showSide {
+    width: 100%;
+}
+
+#sidebar.showSide {
+    width:35%;
+}
+
+
+/* Sidebar */
+
+#state-name {
+    margin-bottom: 0px;
+}
+
+.menu-tab-headers {
+    white-space: nowrap;
+}
+
+.sidebar-header {
+    margin: 0;
+}
+
+.sidebar-contents {
+    height: 100%;
+    width: 100%;
+}
+
+#state-name {
+    color:black;
+    background-color: palegoldenrod;
+    text-align:center;
+    font-size:40px;
+    text-shadow: 2px 1px black;
+}
+
+.sidemenu-items {
+    color: white;
+    background-color: darkcyan;
+    text-align: center;
+    font-size:20px;
+    line-height: 40px
+
+}
+
+.data-info {
+    color: black;
+    background-color: lavender;
+    direction: ltr;
+    padding: 10px;
+
+}
+
+.init-menu {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.init-menu li {
+    max-height: 100%;
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.init-menu a{
+    display: block;
+    text-decoration: none;
+    color: #ddd;
+    white-space: nowrap;
+}
+
+.init-menu a:hover{
+    background-color: #16A085;
+    color: #ddd;
+    text-decoration: none;
+}
+
+.info-field {
+    max-height: 100%;
+    background-color: rgba(255, 255, 255, 0.932);
+}
+
+
+/*For map hovers and states clicking*/
+
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: #008080;
+    box-shadow: 0 0 15px rgba(0,0,0,0.9);
+    border-radius: 8px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #FFE4C4;
+}
+
+
+.centerize { 
+    text-align: center;
+}
+
+/* For errors */
+#error-tab {
+    padding: 0;
+}
+
+#error-list {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-flow: column;
+}
+
+.errlist-item{
+    width:100%;
+    height:100%;
+    text-decoration: none;
+    display: block;
+    color: black !important;
+    padding-left: 20px;
+}
+
+.errlist-item:hover {
+    text-decoration: none;
+}
+
+#source-data{
+    padding: 0;
+    color: black;
+}

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Manders</title>
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+        <!--Leaflet-->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
+        <!--Leaflet Geoman-->
+        <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />
+        <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
+
+        <!--jQuery CDN-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <!--Bootstrap CDNs-->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" 
+        integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="styles/style.css">
+
+    </head>
+
+    <body>
+        <div id="wrapper">
+            <div id="toolbar">
+                <div class="navbar navbar-dark bg-dark">
+                    <div class="btn-group">
+                        <a class="navbar-brand">Team Mander</a>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle mr-1" data-toggle="dropdown">
+                              States
+                            </button>
+                            <div id="states" class="dropdown-menu">
+                              <a class="dropdown-item" href="#">Colorado</a>
+                              <a class="dropdown-item" href="#">Florida</a>
+                              <a class="dropdown-item" href="#">West Virginia</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle mr-1" data-toggle="dropdown">
+                              Elections
+                            </button>
+                            <div id="elections" class="dropdown-menu">
+                              <a class="dropdown-item active" href="#">2016 Congressional Election</a>
+                              <a class="dropdown-item" href="#">2016 Presidential Election</a>
+                              <a class="dropdown-item" href="#">2018 Congressional Election</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle mr-1" data-toggle="dropdown">
+                              Filters
+                            </button>
+                            <div id="filters" class="dropdown-menu">
+                              <a id="district-filter" class="dropdown-item active" href="#">Districts</a>
+                              <a id="precinct-filter" class="dropdown-item active" href="#">Precincts</a>
+                              <a id="national-parks-filter" class="dropdown-item active" href="#">National Parks</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle mr-1" data-toggle="dropdown">
+                              Tools
+                            </button>
+                            <div id="tools" class="dropdown-menu">
+                              <a id="add" class="dropdown-item" href="#">Add Neighbors</a>
+                              <a id="remove" class="dropdown-item" href="#">Remove Neighbors</a>
+                              <a id="insert" class="dropdown-item" href="#">Insert Precinct</a>
+                              <a id="merge" class="dropdown-item" href="#">Merge Precinct</a>
+                              <a id="modify" class="dropdown-item" href="#">Modify Precinct</a>
+                              <a id="reset" class="dropdown-item" href="#">Reset Map</a>
+                            </div>
+                        </div>
+                        <div id="tool-wrapper">
+                            <a id="done-btn" style="display:none" class="btn btn-light">Done</a>
+                            <a id="cancel-btn" style="display:none" class="btn btn-light">Cancel</a>
+                            </div>
+                    </div>
+                    <a id="collapse-menu-btn" class="btn btn-dark">Menu</a>
+                </div>
+            </div>
+
+            <!--Main body of website-->
+            <div id="content-wrapper" class="overflow-auto">
+                    <div id="mapid" class="mi"></div>
+                    <div id="sidebar" class="sd">
+                        <div class="sidebar-header overflow-hidden">
+                        <h3 id="state-name"></h3>
+                        </div>
+                        <div class="sidebar-contents overflow-auto">
+                        <ul class="init-menu">
+                          <li>
+                            <a href='#' data-toggle="collapse"class="menu-tab-headers sidemenu-items" data-target="#edit-name">Edit Name</a>
+                            <div class="info-field collapse data-info" id="edit-name">
+                              <table class="table table-bordered table-striped">
+                                <tbody> 
+                                    <tr>         
+                                        <td><input href="#" id="new-name" min="0" contenteditable="true" style="width: 100px"><b></b></input></td>
+                                        <td><button href='#' id='submit-new-name' onclick='SideBar.uploadNewName()'>Submit</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                        </li>
+                          <li>
+                              <a href='#' data-toggle="collapse"class="menu-tab-headers sidemenu-items" data-target="#demo-data">Edit Demographic Data</a>
+                              <div class="info-field collapse data-info" id="demo-data">
+                                <table class="table table-bordered table-striped">
+                                  <tbody> 
+                                      <tr>         
+                                          <td>
+                                            <select href='#' id="popType">
+                                              <option value="asianPop">Asian</option>
+                                              <option value="blackPop">Black</option>
+                                              <option value="whitePop">White</option>
+                                              <option value="otherPop">Other</option>
+                                            </select>
+                                          </td>
+                                          <td><input href="#" id="popValue" type="number" min="0" contenteditable="true" style="width: 100px"><b></b></input></td>
+                                          <td><button href='#' id = 'submit-demo-data'>Submit</button></td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                              </div>
+                          </li>
+                          <li>
+                            <a href='#' data-toggle="collapse"class="menu-tab-headers sidemenu-items" data-target="#elec-data">Edit Election Data</a>
+                            <div class="info-field collapse data-info" id="elec-data">
+                              <table class="table table-bordered table-striped">
+                                <tbody> 
+                                    <tr>         
+                                        <td>
+                                          <select href="#" id="partyType">
+                                            <option value="democratic">Democratic</option>
+                                            <option value="republican">Republican</option>
+                                            <option value="libertarian">Libertarian</option>
+                                            <option value="green">Green</option>
+                                            <option value="other">Other</option>
+                                          </select>
+                                        </td>
+                                        <td><input href="#" id="partyValue" type="number" min="0" contenteditable="true" style="width: 100px"><b></b></input></td>
+                                        <td><button href='#' id = 'submit-elec-data'>Submit</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                          </li>
+                          <li>
+                            <a href='#' data-toggle="collapse"class="menu-tab-headers sidemenu-items" data-target="#errors">Unresolved Errors</a>
+                            <div class="info-field collapse data-info" id="errors">
+                              <table class="table table-bordered table-striped">
+                                <tbody> 
+                                    <tr>         
+                                      <td>
+                                        <select href='#' id="error-type-selection" onchange="SideBar.displaySelectedTypeErrors(this)">
+                                          <option>Multi Polygon</option>
+                                          <option>Enclosed</option>
+                                          <option>Overlap</option>
+                                          <option>Unclosed</option>
+                                          <option>Zero Population</option>
+                                          <option>Unproportional Election</option>
+                                          <option>Ghost</option>
+                                        </select>
+                                      </td>
+                                    </tr>
+                                    <tr>         
+                                      <td>
+                                        <select href='#' id="error-selection">
+                                        </select>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                    <td id='error-buttons'>
+                                      <button id="go-to-error" onclick="SideBar.findPrecinct()">Go to Precinct</button>
+                                      <button id="resolved" onclick="SideBar.errorResolved()">Resolved</button>
+                                      <button id="verify" onclick="DataHandler.verifyGhostPrecinct()"  style="display:none">Verify</button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                          </li>
+                        </ul>
+                        </div>
+                    </div>
+    
+                </div>
+                <div id="done-edit-btn" style="display:none" class="btn btn-dark">Done</div>
+            </div>
+        </div>
+    </body>
+    <script src="scripts/toolbar.js"></script>
+    <script src="scripts/dataHandler.js"></script>
+    <script src="scripts/jsonHandler.js"></script>
+    <script src="scripts/leafletmap.js"></script>
+    <script src="scripts/sidebar.js"></script>
+
+</html>
+    

@@ -5,7 +5,10 @@ Repository for frontend + backend, created as a team project for the Software En
 
 # How to Run
 After cloning the repository, look in Salamander/src/main/resources/application.properties and configure a connection to your MySQL DB
+
 Look in the db folder for a zip called FinalData&Structure.zip that contains data for the database to load into your DB.
+
 Run mvn spring-boot:run in your terminal
+
 Open a browser and go to localhost:8080
 
